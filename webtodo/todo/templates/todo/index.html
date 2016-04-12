@@ -1,0 +1,23 @@
+{% extends "todo/base.html" %}
+
+{% block extrahead %}
+{% endblock %}
+
+{% block content %}
+<h1>Todo tasks</h1>
+<div class="input-form">
+  <textarea name="todo" rows="4" cols="40" placeholder="Input here"></textarea>
+  <button id="enter" name="enter">Enter</button>
+</div>
+<div class="todo-list">
+  {% for todo in todo_list %}
+  <div class="todo">
+    <pre>{{ todo.todo_text }}</pre>
+    <div class="todo-buttons">
+      <a href="{% url 'todo:edit' todo.id %}">Edit</a>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+</ul>
+{% endblock %}
