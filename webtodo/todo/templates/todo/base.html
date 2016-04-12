@@ -1,0 +1,19 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE|default:"en-us" }}">
+  <head>
+    <meta charset="UTF-8" />
+    <title>WebTodo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'todo/css/style.css' %}" />
+    {% block extrahead %}{% endblock %}
+  </head>
+  <body>
+    <div class="container">
+      <div class="content">
+        {% block content %}{% endblock %}
+      </div>
+    </div>
+    {% block footer-script %}{% endblock %}
+  </body>
+</html>

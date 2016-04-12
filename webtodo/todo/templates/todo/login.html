@@ -1,0 +1,24 @@
+{% extends "todo/base.html" %}
+{% load staticfiles %}
+
+{% block extrahead %}
+<link rel="stylesheet" href="{% static 'todo/css/login.css' %}" />
+{% endblock %}
+
+{% block content %}
+<form action="{% url 'todo:do_login' %}" method="post">
+  {% csrf_token %}
+  <div>
+    <h1>Login from here</h1>
+  </div>
+  <div>
+    <input type="text" name="username" placeholder="username" />
+  </div>
+  <div>
+    <input type="password" name="password" placeholder="**********" />
+  </div>
+  <div>
+    <input type="submit" value="Login" />
+  </div>
+</form>
+{% endblock %}

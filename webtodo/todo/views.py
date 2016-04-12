@@ -3,7 +3,7 @@ from django.http import HttpResponse
 
 # Create your views here.
 def login(request):
-    return HttpResponse("login")
+    return render(request, 'todo/login.html', {})
 
 def do_login(request):
     return HttpResponse("do_login")
