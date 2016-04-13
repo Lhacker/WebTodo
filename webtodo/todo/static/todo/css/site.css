@@ -37,7 +37,7 @@ body {
   cursor: move;
 }
 
-.todo pre {
+.todo p {
   white-space: -moz-pre-wrap; /* Mozilla */
   white-space: -pre-wrap;     /* Opera 4-6 */
   white-space: -o-pre-wrap;   /* Opera 7 */

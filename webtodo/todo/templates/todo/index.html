@@ -9,15 +9,13 @@
 </div>
 <h1>Todo tasks</h1>
 <div class="input-form">
-  <input type="text" class="todo-text" name="todo" placeholder="Input todo here" />
+  <input type="text" class="todo-text" id="todo_text" name="todo_text" placeholder="Input todo here" />
 </div>
 <div id="todo_list" class="todo-list">
   {% for todo in todo_list %}
   <div class="todo" draggable="true">
-    <pre>{{ todo.todo_text }}</pre>
-    <div class="todo-buttons">
-      <a href="{% url 'todo:edit' todo.id %}">Edit</a>
-    </div>
+    <input type="hidden" name="todo_id" value="{{ todo.id }}" />
+    <p class="todo-text">{{ todo.todo_text }}</p>
   </div>
   {% endfor %}
 </div>
@@ -75,6 +73,7 @@
         return false;
       }
 
+      // register drag and drop events
       var todos = document.querySelectorAll('#todo_list .todo');
       [].forEach.call(todos, function(todo) {
         todo.addEventListener('dragstart', handleDragStart, false);
@@ -83,6 +82,30 @@
         todo.addEventListener('dragleave', handleDragLeave, false);
         todo.addEventListener('drop', handleDrop, false);
         todo.addEventListener('dragend', handleDragEnd, false);
+      });
+
+      // register enter event
+      document.getElementById('todo_text').addEventListener('keydown', function(event) {
+        if (event.keyCode == 13) {
+          document.getElementById('todo_list').insertAdjacentHTML(
+            'afterbegin',
+            '<div class="todo" draggable="true">\n' +
+            '  <input type="hidden" name="todo_id" value="" />\n' +
+            '  <p class="todo-text">' + this.value + '</p>\n' +
+            '</div>'
+          );
+
+          // add event
+          var todo = document.querySelector('#todo_list .todo');
+          todo.addEventListener('dragstart', handleDragStart, false);
+          todo.addEventListener('dragenter', handleDragEnter, false);
+          todo.addEventListener('dragover', handleDragOver, false);
+          todo.addEventListener('dragleave', handleDragLeave, false);
+          todo.addEventListener('drop', handleDrop, false);
+          todo.addEventListener('dragend', handleDragEnd, false);
+
+          this.value = '';
+        }
       });
 </script>
 {% endblock %}
