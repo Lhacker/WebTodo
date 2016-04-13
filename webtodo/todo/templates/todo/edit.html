@@ -8,7 +8,7 @@
 <div class="input-form">
   <form action="{% url 'todo:edit' todo.id %}" method="post">
     {% csrf_token %}
-    <textarea name="todo_text" rows="4" cols="40" placeholder="Input here">{{ todo.todo_text }}</textarea>
+    <input type="text" class="todo-text" name="todo_text" placeholder="Input todo here" value="{{ todo.todo_text }}" />
     <input type="submit" value="enter" />
   </form>
 </div>

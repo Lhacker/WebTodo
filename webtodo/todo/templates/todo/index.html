@@ -9,12 +9,11 @@
 </div>
 <h1>Todo tasks</h1>
 <div class="input-form">
-  <textarea name="todo" rows="4" cols="40" placeholder="Input here"></textarea>
-  <button id="enter" name="enter">Enter</button>
+  <input type="text" class="todo-text" name="todo" placeholder="Input todo here" />
 </div>
-<div class="todo-list">
+<div id="todo_list" class="todo-list">
   {% for todo in todo_list %}
-  <div class="todo">
+  <div class="todo" draggable="true">
     <pre>{{ todo.todo_text }}</pre>
     <div class="todo-buttons">
       <a href="{% url 'todo:edit' todo.id %}">Edit</a>
@@ -23,4 +22,67 @@
   {% endfor %}
 </div>
 </ul>
+{% endblock %}
+
+{% block footer-script %}
+<script type="text/javascript">
+      var dragSourceElement = null;
+
+      function handleDragStart(e) {
+        this.style.opacity = 0.4;
+
+        dragSourceElement = this;
+
+        e.dataTransfer.effectAllowed = 'move';
+        e.dataTransfer.setData('text/html', this.innerHTML);
+      }
+
+      function handleDragOver(e) {
+        if (e.preventDefault) {
+          e.preventDefault();
+        }
+        e.dataTransfer.droppEffect = 'move';
+        return false;
+      }
+
+      function handleDragEnter(e) {
+        this.classList.add('over');
+      }
+
+      function handleDragLeave(e) {
+        this.classList.remove('over');
+      }
+
+      function handleDragEnd(e) {
+        var todos = document.querySelectorAll('#todo_list .todo');
+        [].forEach.call(todos, function(todo) {
+          todo.classList.remove('over');
+        });
+      }
+
+      function handleDrop(e) {
+        dragSourceElement.style.opacity = 1;
+
+        if (e.stopPropagation) {
+          e.stopPropagation();
+        }
+
+        if (dragSourceElement != this) {
+          dragSourceElement.innerHTML = this.innerHTML;
+          this.innerHTML = e.dataTransfer.getData('text/html');
+        }
+
+        return false;
+      }
+
+      var todos = document.querySelectorAll('#todo_list .todo');
+      [].forEach.call(todos, function(todo) {
+        todo.addEventListener('dragstart', handleDragStart, false);
+        todo.addEventListener('dragenter', handleDragEnter, false);
+        todo.addEventListener('dragover', handleDragOver, false);
+        todo.addEventListener('dragleave', handleDragLeave, false);
+        todo.addEventListener('drop', handleDrop, false);
+        todo.addEventListener('dragend', handleDragEnd, false);
+      });
+</script>
 {% endblock %}
