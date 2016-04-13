@@ -16,9 +16,19 @@ body {
   padding: 10px;
 }
 
+.input-form {
+  margin-left: 8px;
+}
+
 .input-form input.todo-text {
   width: 40%; 
   margin-bottom: 20px;
+}
+
+.input-form .save-button {
+  width: 41%; 
+  height: 50px;
+  font-size: 120%;
 }
 
 .todo {

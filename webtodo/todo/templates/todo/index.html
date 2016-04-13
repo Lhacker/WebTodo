@@ -9,7 +9,8 @@
 </div>
 <h1>Todo tasks</h1>
 <div class="input-form">
-  <input type="text" class="todo-text" id="todo_text" name="todo_text" placeholder="Input todo here" />
+  <input type="text" class="todo-text" id="todo_text" name="todo_text" placeholder="Input todo here" /></br>
+  <button id="save_button" class="save-button">Save</button>
 </div>
 <div id="todo_list" class="todo-list">
   {% for todo in todo_list %}
@@ -105,6 +106,13 @@
           todo.addEventListener('dragend', handleDragEnd, false);
 
           this.value = '';
+        }
+      });
+
+      // register save event
+      document.getElementById('save_button').addEventListener('click', function(event) {
+        if (confirm('Do you save current situation?')) {
+          // TODO implement
         }
       });
 </script>
