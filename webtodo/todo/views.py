@@ -39,4 +39,4 @@ class EditView(generic.UpdateView):
     model = Todo
     fields = ['todo_text']
     template_name = 'todo/edit.html'
-    success_url = reverse_lazy('index')
+    success_url = reverse_lazy('todo:index')
