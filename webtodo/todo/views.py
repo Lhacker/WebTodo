@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, logout
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.views import generic
 
@@ -24,6 +24,10 @@ def login(request):
     return render(request, 'todo/login.html', {
         'user': user
     })
+
+def log_out(request):
+    logout(request)
+    return HttpResponseRedirect(reverse('todo:login'))
 
 def index(request):
     todo_list = Todo.objects.filter(user = request.user).order_by('order')

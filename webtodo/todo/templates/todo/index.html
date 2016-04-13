@@ -4,6 +4,9 @@
 {% endblock %}
 
 {% block content %}
+<div class="logout">
+  <a href="{% url 'todo:logout' %}">Log out</a>
+</div>
 <h1>Todo tasks</h1>
 <div class="input-form">
   <textarea name="todo" rows="4" cols="40" placeholder="Input here"></textarea>
