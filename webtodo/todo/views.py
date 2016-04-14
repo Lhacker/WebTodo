@@ -1,8 +1,12 @@
-from django.shortcuts import render
-from django.http import HttpResponseRedirect
 from django.contrib.auth import authenticate, logout
+from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse, reverse_lazy
+from django.db import transaction
+from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import render
 from django.views import generic
+from django.views.decorators.csrf import csrf_exempt
+import json
 
 from .models import Todo
 
@@ -34,6 +38,33 @@ def index(request):
     return render(request, 'todo/index.html', {
         'todo_list': todo_list
     })
+
+@csrf_exempt
+@transaction.atomic
+def save(request):
+    received_json_data = json.loads(request.body.decode('utf8'))
+    user = User.objects.get(id=received_json_data['userId'])
+
+    # register new todo
+    for new_todo in received_json_data['newTodos']:
+        t = Todo(
+            user = user,
+            todo_text = new_todo['todoText'],
+            order = new_todo['order'],
+        )
+        t.save()
+
+    # update todo order
+    for todo in received_json_data['updateTodos']:
+        t = Todo.objects.get(pk = todo['todoId'])
+        t.order = todo['order']
+        t.save()
+
+    # delete todo
+    for todo_id in received_json_data['deleteTodoIds']:
+        Todo.objects.get(pk = todo_id).delete()
+
+    return HttpResponse("ok")
 
 class DetailView(generic.DetailView):
     model = Todo

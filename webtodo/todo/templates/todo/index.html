@@ -135,7 +135,51 @@
       // register save event
       document.getElementById('save_button').addEventListener('click', function(e) {
         if (confirm('Do you save current situation?')) {
-          // TODO implement
+          var newTodos = [];
+          var updateTodos = [];
+          var order = 1;
+          var todos = document.querySelectorAll('#todo_list .todo');
+
+          // collect upload data
+          [].forEach.call(todos, function(todo) {
+            var strTodoId = todo.querySelector('input[name="todo_id"]').value;
+            var todoText = todo.querySelector('p.todo-text').textContent;
+            if (strTodoId) {
+              updateTodos.push({
+                todoId: parseInt(strTodoId),
+                //todoText: todoText,
+                order: order
+              });
+            } else {
+              newTodos.push({
+                todoId: 0,
+                todoText: todoText,
+                order: order
+              });
+            }
+            order++;
+          });
+
+          // post data
+          fetch('/todo/save/', {
+            method: 'post',
+            headers: {
+              'content-type': 'application/json, charset=utf8'
+            },
+            body: JSON.stringify({
+              userId: {{ request.user.id }},
+              newTodos: newTodos,
+              updateTodos: updateTodos,
+              deleteTodoIds: deletedTodoIds
+            }),
+            credentials: 'cors'
+          }).then(res => {
+            if (res.status == 200) {
+              alert('Saved!');
+            } else {
+              alert('Couldn\'t save...');
+            }
+          }).catch(error => console.error(error));
         }
       });
 </script>
