@@ -43,12 +43,11 @@ def index(request):
 @transaction.atomic
 def save(request):
     received_json_data = json.loads(request.body.decode('utf8'))
-    user = User.objects.get(id=received_json_data['userId'])
 
     # register new todo
     for new_todo in received_json_data['newTodos']:
         t = Todo(
-            user = user,
+            user = request.user,
             todo_text = new_todo['todoText'],
             order = new_todo['order'],
         )

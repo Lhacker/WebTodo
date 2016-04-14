@@ -167,12 +167,11 @@
               'content-type': 'application/json, charset=utf8'
             },
             body: JSON.stringify({
-              userId: {{ request.user.id }},
               newTodos: newTodos,
               updateTodos: updateTodos,
               deleteTodoIds: deletedTodoIds
             }),
-            credentials: 'cors'
+            credentials: 'include'
           }).then(res => {
             if (res.status == 200) {
               alert('Saved!');
