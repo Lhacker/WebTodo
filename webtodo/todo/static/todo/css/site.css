@@ -23,6 +23,7 @@ body {
 .input-form input.todo-text {
   width: 40%; 
   margin-bottom: 20px;
+  font-size: 120%;
 }
 
 .input-form .save-button {
@@ -48,6 +49,8 @@ body {
 }
 
 .todo p {
+  font-size: 120%;
+
   white-space: -moz-pre-wrap; /* Mozilla */
   white-space: -pre-wrap;     /* Opera 4-6 */
   white-space: -o-pre-wrap;   /* Opera 7 */
@@ -60,5 +63,6 @@ body {
 }
 
 .todo .button-area {
+  margin-top: -20px;
   text-align: right;
 }
