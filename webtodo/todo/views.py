@@ -2,7 +2,7 @@ from django.contrib.auth import authenticate, logout
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.db import transaction
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, HttpResponseBadRequest
 from django.shortcuts import render
 from django.views import generic
 from django.views.decorators.csrf import csrf_exempt
@@ -34,6 +34,9 @@ def log_out(request):
     return HttpResponseRedirect(reverse('todo:login'))
 
 def index(request):
+    if not request.user.is_authenticated():
+        return HttpResponseBadRequest('Please login from ' + reverse('todo:login'))
+
     todo_list = Todo.objects.filter(user = request.user).order_by('order')
     return render(request, 'todo/index.html', {
         'todo_list': todo_list
@@ -42,6 +45,9 @@ def index(request):
 @csrf_exempt
 @transaction.atomic
 def save(request):
+    if not request.user.is_authenticated():
+        return HttpResponseBadRequest('Please login from ' + reverse('todo:login'))
+
     received_json_data = json.loads(request.body.decode('utf8'))
 
     # register new todo
