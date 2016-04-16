@@ -14,6 +14,9 @@ from .models import Todo
 def login(request):
     from django.contrib.auth import login
 
+    if request.user.is_authenticated():
+        return HttpResponseRedirect(reverse('todo:index'))
+
     user = None
 
     if request.method == 'POST':
